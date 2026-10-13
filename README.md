@@ -1,147 +1,237 @@
 # Divisional Secretariat Management System (DSMS)
 
-## 1. Project title and overview
+## 1. Project Overview
 
-The Divisional Secretariat Management System (DSMS) is a role-based web application designed to manage citizen service requests, officer review tasks, administrator decisions, and certificate issuance. The project is built as a full-stack application using a React frontend, an Express backend, and a MySQL database.
+The **Divisional Secretariat Management System (DSMS)** is a full-stack web application prototype designed to digitize and manage citizen service applications, officer reviews, administrative decisions, and certificate issuance.
 
-This repository includes the main implementation for:
-- citizen registration and login
-- application submission and tracking
-- officer review and recommendation workflows
-- administrator approval and rejection processing
-- notifications and certificate issuance
-- public record verification
+The system provides separate workflows for citizens, officers, and administrators. It aims to improve application tracking, centralize service records, and make administrative processing more organized and transparent.
 
-## 2. Project objectives and problem statement
+The application uses React for the frontend, Node.js and Express for the backend, and MySQL for database operations.
 
-### Objectives
-The application aims to:
-- digitize citizen service applications in a divisional secretariat environment
-- improve transparency in application status handling
-- provide a structured workflow for citizens, officers, and administrators
-- keep application records and decisions centralized in one system
-- support issued certificate generation and verification
+> **Project Status:** Working prototype for educational, development, and portfolio purposes. It is not an official government system.
 
-### Problem statement
-Manual processing of public service requests often creates delays, limited traceability, and inconsistent status tracking. DSMS addresses these issues by providing a centralized digital workflow for service requests and administrative processing.
+## 2. Project Objectives
 
-## 3. Implemented features
+The main objectives of DSMS are to:
 
-The following features are present in the current codebase and can be verified from the source files:
+- Digitize citizen service application workflows.
+- Provide a centralized application management system.
+- Allow citizens to submit and track applications.
+- Enable officers to review assigned applications and submit recommendations.
+- Allow administrators to make final application decisions.
+- Support certificate issuance and public certificate verification.
+- Provide notifications about relevant application activities.
+- Improve the traceability and organization of administrative processes.
 
-- citizen registration and login
-- JWT-based authentication for protected endpoints
-- role-based access control for citizen, officer, and admin users
-- citizen dashboard with application statistics
-- service listing and new application submission
-- tracking of submitted applications and application detail views
-- officer dashboard and application review queue
-- officer recommendation and review note workflow
-- administrator assignment of applications to officers
-- final approval or rejection by administrators
-- application notifications and unread notification tracking
-- certificate issuance for approved applications
-- PDF generation for application records and certificates
-- public certificate verification route and verification page
-- database health check endpoint
+## 3. Implemented Features
 
-### Distinction from planned SRS requirements
-This workspace does not include a checked-in SRS v1.0 document. The implementation listed above is based on the actual code and database migration files present in the repository. Any broader requirements not reflected in the source code are treated as planned or future work rather than implemented functionality.
+The following features are represented in the current codebase and should be verified against the running application before deployment.
 
-## 4. User roles
+### Authentication and Access Control
+
+- Citizen registration and login.
+- JWT-based authentication for protected API endpoints.
+- Password hashing using bcrypt.
+- Role-based access control for citizens, officers, and administrators.
+- Protected API routes using authentication and authorization middleware.
+
+### Citizen Features
+
+- Citizen dashboard with application statistics.
+- View available services.
+- Submit service applications.
+- View submitted applications and application details.
+- Track application status.
+- Access approved application records.
+- View issued certificates associated with approved applications.
+- Download supported application and certificate PDFs.
+
+### Officer Features
+
+- Officer dashboard.
+- View application queues.
+- Access application details.
+- Review applications.
+- Submit recommendations and review statuses.
+- Record review notes where supported by the implementation.
+
+### Administrator Features
+
+- View applications.
+- Assign applications to officers.
+- Review officer recommendations.
+- Approve or reject applications.
+- Issue certificates for approved applications.
+- View certificate records.
+- Download supported certificate PDFs.
+
+### Notifications and Verification
+
+- View notifications.
+- Retrieve unread notification counts.
+- Mark individual notifications as read.
+- Mark all notifications as read.
+- Generate and store certificate records.
+- Verify certificate records through a public verification endpoint.
+
+### Supporting Features
+
+- Database connectivity health-check endpoint.
+- PDF generation for supported records.
+- Database transaction handling in certificate issuance logic, where implemented.
+
+**Implementation note:** The feature list describes capabilities represented in the reviewed source files. Confirm each workflow against the actual running application. Do not assume that every feature is fully tested or production-ready.
+
+## 4. User Roles
 
 ### Citizen
-Citizens can:
-- register an account
-- log in to the DSMS portal
-- view available services
-- submit applications
-- view their own application details and status
-- download application record PDFs for approved applications
-- view issued certificates assigned to their approved applications
+
+A citizen can use the system to:
+
+- Register and log in.
+- Browse available services.
+- Submit applications.
+- View personal application records and statuses.
+- Access supported application documents.
+- View and download issued certificates associated with approved applications.
 
 ### Officer
-Officers can:
-- log in to the officer portal
-- review applications assigned to them or available for review
-- inspect application data and review notes
-- submit recommendations for approval or rejection
-- maintain review status for each application
+
+An officer can use the system to:
+
+- Log in to the officer interface.
+- View applications available or assigned for review, according to the implemented access rules.
+- Inspect application information.
+- Submit review recommendations and supported status updates.
 
 ### Administrator
-Administrators can:
-- view all applications
-- assign applications to officers
-- verify officer recommendations
-- approve or reject applications
-- issue certificates for approved applications
-- review certificate records and downloadable PDFs
 
-## 5. Actual technologies used
+An administrator can use the system to:
+
+- View application records.
+- Assign applications to officers.
+- Review officer recommendations.
+- Approve or reject applications.
+- Issue certificates for eligible applications.
+- View certificate information and supported PDF documents.
+
+## 5. Technology Stack
+
+The following technologies are referenced by the project source and package configuration.
 
 ### Frontend
-- React 19
-- Vite 8
+
+- React
+- Vite
 - React Router DOM
-- Lucide React icons
-- CSS styling
-- Fetch API for HTTP communication
+- Lucide React
+- CSS
+- Fetch API
 
 ### Backend
+
 - Node.js
-- Express 5
+- Express.js
 - MySQL2
-- JWT
+- JSON Web Token (JWT)
 - bcrypt
 - dotenv
 - CORS
 - PDFKit
 
 ### Database
-- MySQL / MariaDB-compatible database accessed through `mysql2/promise`
 
-## 6. System architecture
+- MySQL or a compatible database configuration.
+- SQL migration files for certificate and notification tables.
 
-The project uses a layered web application architecture:
+### Development Tools
 
-1. Frontend layer
-   - `client/src` contains the React application and role-based pages
-   - route definitions are in `client/src/routes/AppRoutes.jsx`
-   - session data is stored in browser local storage
+- Visual Studio Code
+- Git
+- GitHub
+- npm
 
-2. Backend layer
-   - `server/server.js` hosts the Express API
-   - `server/routes/` contains route modules for authentication and certificates
-   - `server/middleware/` contains JWT and admin authorization checks
+Refer to `client/package.json` and `server/package.json` for the exact dependency versions installed in the project.
 
-3. Data layer
-   - `server/config/db.js` configures the MySQL pool
-   - runtime queries interact with tables such as `users`, `roles`, `services`, `applications`, `notifications`, and `issued_certificates`
+## 6. System Architecture
 
-4. Document layer
-   - PDF generation for application records and certificates is handled using `pdfkit`
+DSMS follows a frontend–backend–database architecture.
 
-## 7. Application workflow
+### Frontend Layer
 
-The implemented workflow is:
+The React application provides the user interface for the different roles.
 
-1. Citizen registers and logs in.
-2. Citizen selects a service and submits an application.
-3. The backend stores the application and creates notifications.
-4. Administrator assigns the application to an officer.
-5. Officer reviews the application and submits a recommendation.
-6. Administrator makes the final approval or rejection decision.
-7. If approved, the administrator issues a certificate.
-8. The certificate is saved to the database and can be downloaded as a PDF.
-9. The public verification page checks whether the certificate number exists in the DSMS records.
+Main location:
 
-## 8. Project folder structure
+`client/src/`
+
+Responsibilities include:
+
+- Rendering application pages and components.
+- Managing client-side routes.
+- Handling user interactions.
+- Communicating with backend API endpoints.
+- Displaying application information and notifications.
+
+### Backend Layer
+
+The Express application exposes REST API endpoints.
+
+Main location:
+
+`server/`
+
+Responsibilities include:
+
+- Authentication and authorization.
+- Processing application requests.
+- Enforcing role-based access restrictions.
+- Interacting with the database.
+- Managing application reviews and decisions.
+- Supporting notifications and certificate operations.
+- Generating supported PDF documents.
+
+### Database Layer
+
+The backend connects to a MySQL database through the database configuration in:
+
+`server/config/db.js`
+
+The runtime code references tables such as users, roles, services, applications, notifications, issued certificates, and audit logs. The complete schema for every table is not included in the migration files currently checked into this repository.
+
+### Document Layer
+
+PDFKit is used for supported PDF-generation operations, including application records and certificate documents where implemented.
+
+## 7. Application Workflow
+
+The intended main workflow is:
+
+1. A citizen registers and logs in.
+2. The citizen selects a service.
+3. The citizen submits an application.
+4. The backend processes and stores the application.
+5. An administrator assigns the application to an officer.
+6. The officer reviews the application and submits a recommendation.
+7. The administrator makes the final approval or rejection decision.
+8. For an approved application, an eligible administrator can issue a certificate.
+9. The certificate record is stored in the database.
+10. The citizen can access supported certificate documents.
+11. The public verification endpoint can check a certificate number against the records available in the system.
+
+The exact workflow and permitted status transitions depend on the implemented backend rules.
+
+## 8. Project Structure
+
+The main repository structure is:
 
 ```text
-DSMS/
+ds-management-system/
 ├── README.md
+├── .gitignore
 ├── project-file-list.csv
 ├── client/
+│   ├── .gitignore
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── index.html
@@ -149,14 +239,20 @@ DSMS/
 │   ├── public/
 │   └── src/
 │       ├── App.jsx
+│       ├── App.css
+│       ├── index.css
 │       ├── main.jsx
+│       ├── assets/
 │       ├── components/
 │       ├── context/
+│       ├── hooks/
 │       ├── pages/
+│       │   ├── admin/
+│       │   ├── citizen/
+│       │   └── officer/
 │       ├── routes/
 │       └── services/
 ├── server/
-│   ├── .env
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── server.js
@@ -164,121 +260,140 @@ DSMS/
 │   ├── createOfficer.js
 │   ├── config/
 │   ├── middleware/
-│   ├── routes/
-│   └── node_modules/
-├── database/
-│   └── migrations/
-│       ├── 001_create_issued_certificates.sql
-│       └── 002_create_notifications.sql
-├── docs/
-├── .gitignore
-└── .env.example (if created separately outside the reviewed files)
+│   └── routes/
+└── database/
+    └── migrations/
+        ├── 001_create_issued_certificates.sql
+        └── 002_create_notifications.sql
 ```
 
-Notes:
-- `node_modules` is generated from dependency installation and is not the primary application source.
-- Any additional project docs or config files beyond the reviewed files are not assumed unless they exist in the workspace.
+This is a representative structure of the main application files. Additional files may exist in the working directory.
 
-## 9. Database structure based on actual schema files
+**Important:** Local `.env` files, real credentials, and installed `node_modules` directories should not be committed to the repository.
 
-The checked-in migration files explicitly define the following tables.
+## 9. Database Migrations
 
-### `issued_certificates`
-File: `database/migrations/001_create_issued_certificates.sql`
+The repository contains the following SQL migration files.
 
-```sql
-CREATE TABLE issued_certificates (
-    certificate_id INT NOT NULL AUTO_INCREMENT,
-    application_id INT NOT NULL,
-    certificate_number VARCHAR(45) NOT NULL,
-    issued_by INT NOT NULL,
-    issued_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    verification_note VARCHAR(500) NOT NULL,
-    PRIMARY KEY (certificate_id),
-    UNIQUE KEY uq_issued_certificates_application (application_id),
-    UNIQUE KEY uq_issued_certificates_number (certificate_number),
-    KEY ix_issued_certificates_issuer (issued_by),
-    CONSTRAINT fk_issued_certificates_application
-        FOREIGN KEY (application_id) REFERENCES applications (application_id),
-    CONSTRAINT fk_issued_certificates_issuer
-        FOREIGN KEY (issued_by) REFERENCES users (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-```
+### 9.1 Issued Certificates
 
-### `notifications`
-File: `database/migrations/002_create_notifications.sql`
+File:
 
-```sql
-CREATE TABLE IF NOT EXISTS notifications (
-    notification_id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    application_id INT NULL,
-    title VARCHAR(150) NOT NULL,
-    message VARCHAR(1000) NOT NULL,
-    notification_type VARCHAR(50) NOT NULL DEFAULT 'application_update',
-    event_key VARCHAR(190) NULL,
-    is_read TINYINT(1) NOT NULL DEFAULT 0,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (notification_id),
-    KEY ix_notifications_user_read_created (user_id, is_read, created_at),
-    KEY ix_notifications_application (application_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-```
+`database/migrations/001_create_issued_certificates.sql`
 
-### Additional tables referenced by runtime code
-The runtime application also references these tables:
-- `users`
-- `roles`
-- `services`
-- `applications`
-- `audit_logs`
+This migration creates the `issued_certificates` table, which stores information associated with issued certificates.
 
-The exact full DDL for those tables is not included in the repository files reviewed here.
+The schema includes fields for:
 
-## 10. Installation and setup instructions
+- Certificate ID.
+- Related application ID.
+- Certificate number.
+- Issuing user ID.
+- Issue timestamp.
+- Verification note.
 
-### Prerequisites
-- Node.js 18+
-- MySQL server running locally or on a reachable host
-- a database created for the project, such as `dsms_db`
+The migration defines a primary key, unique constraints for the application and certificate number, an index for the issuing user, and foreign-key references to the applications and users tables.
 
-### 1. Clone the repository
+### 9.2 Notifications
+
+File:
+
+`database/migrations/002_create_notifications.sql`
+
+This migration creates the `notifications` table.
+
+The schema includes fields for:
+
+- Notification ID.
+- Recipient user ID.
+- Optional related application ID.
+- Notification title and message.
+- Notification type.
+- Optional event key.
+- Read status.
+- Creation timestamp.
+
+The migration also defines indexes to support user notification and application-related queries.
+
+### Database Prerequisite
+
+The migrations reference existing application tables, including `applications` and `users`.
+
+Therefore, these two migration files alone do not create a complete, standalone DSMS database. The remaining required tables and their relationships must be created using the appropriate schema or setup scripts for the project.
+
+## 10. Prerequisites
+
+Before running the application, install and configure:
+
+- Node.js and npm.
+- MySQL or a compatible database server.
+- Git.
+- A code editor such as Visual Studio Code.
+
+The project should be run with dependency versions compatible with the package files. Check the current Node.js and package requirements before selecting a runtime version.
+
+## 11. Installation and Setup
+
+### Step 1: Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/GayaniIresha/ds-management-system.git
 cd ds-management-system
 ```
 
-### 2. Install frontend dependencies
+### Step 2: Install Frontend Dependencies
 
 ```bash
 cd client
 npm install
 ```
 
-### 3. Install backend dependencies
+### Step 3: Install Backend Dependencies
+
+From the project root:
 
 ```bash
-cd ../server
+cd server
 npm install
 ```
 
-### 4. Create the database and apply migration scripts
+### Step 4: Configure the Database
+
+Start your MySQL server and create the database used by your local environment.
+
+Example:
 
 ```sql
 CREATE DATABASE dsms_db;
 ```
 
-Then apply migration scripts:
+Use the database name configured in your backend environment.
+
+Before running the migrations, ensure that the required referenced tables already exist.
+
+From the project root, apply the certificate migration if its prerequisites are satisfied:
 
 ```bash
-mysql -u <user> -p dsms_db < database/migrations/001_create_issued_certificates.sql
-mysql -u <user> -p dsms_db < database/migrations/002_create_notifications.sql
+mysql -u YOUR_MYSQL_USER -p dsms_db < database/migrations/001_create_issued_certificates.sql
 ```
 
-## 11. Environment variable setup using placeholders
+Apply the notification migration:
 
-Placeholders for the backend environment file (`server/.env`) should look like this:
+```bash
+mysql -u YOUR_MYSQL_USER -p dsms_db < database/migrations/002_create_notifications.sql
+```
+
+Replace `YOUR_MYSQL_USER` with your local MySQL username. The `-p` option prompts for the password.
+
+The commands above are examples for environments where the MySQL command-line client is installed and accessible.
+
+### Step 5: Configure Backend Environment Variables
+
+Create a local environment file at:
+
+`server/.env`
+
+Example placeholder configuration:
 
 ```env
 PORT=5000
@@ -290,137 +405,209 @@ DB_NAME=dsms_db
 JWT_SECRET=replace_with_a_long_random_secret
 ```
 
-Do not commit real credentials or production secrets.
+Use the exact environment variable names expected by the backend source code. These placeholders are examples and must be checked against `server/config/db.js` and `server/server.js`.
 
-## 12. Commands to run the frontend and backend based on package.json
+Generate a strong, unique JWT secret for local development.
 
-### Backend commands
-From `server/package.json`:
+**Never commit real passwords, API keys, tokens, or other secrets.**
 
-```json
-"scripts": {
-  "start": "node server.js",
-  "dev": "nodemon server.js"
-}
-```
+### Step 6: Start the Backend
 
-Run backend:
+Open a terminal in the `server` directory:
 
 ```bash
-cd server
 npm run dev
 ```
 
-Or:
+Alternatively, use:
 
 ```bash
-cd server
 npm start
 ```
 
-### Frontend commands
-From `client/package.json`:
+The development command requires the relevant development dependency to be installed.
 
-```json
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "lint": "eslint .",
-  "preview": "vite preview"
-}
-```
+### Step 7: Start the Frontend
 
-Run frontend:
+Open a second terminal in the `client` directory:
 
 ```bash
-cd client
 npm run dev
 ```
 
-Build frontend:
+Vite will display the local frontend URL in the terminal.
+
+Open the URL displayed by Vite in your browser.
+
+### Step 8: Verify the Connection
+
+Check the backend URL and API configuration used by the frontend.
+
+If the backend provides the database health-check endpoint, it can be tested at:
+
+`http://localhost:5000/api/health/db`
+
+This URL is an example for a backend configured to use port `5000`. Adjust it if the application uses a different port.
+
+A successful database health check depends on a running database and valid environment configuration.
+
+## 12. Available Scripts
+
+### Frontend Scripts
+
+Run these commands from `client/`.
+
+Start the development server:
 
 ```bash
-cd client
+npm run dev
+```
+
+Create a production build:
+
+```bash
 npm run build
 ```
 
-## 13. API endpoints verified from the actual source code
+Run ESLint:
 
-The following endpoints are implemented in the backend and were verified by source inspection.
+```bash
+npm run lint
+```
+
+Preview a production build:
+
+```bash
+npm run preview
+```
+
+These commands correspond to the scripts represented in the frontend package configuration.
+
+### Backend Scripts
+
+Run these commands from `server/`.
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Start the application:
+
+```bash
+npm start
+```
+
+The backend scripts are defined in `server/package.json`.
+
+## 13. API Endpoints
+
+The following endpoints are represented in the reviewed backend implementation. Verify request bodies, response formats, status codes, and access rules in the route handlers before integrating other applications.
 
 | Method | Endpoint | Access | Purpose |
 |---|---|---|---|
 | GET | `/` | Public | Root API status |
-| GET | `/api/health/db` | Public | Database connectivity check |
+| GET | `/api/health/db` | Public | Check database connectivity |
 | POST | `/api/auth/register` | Public | Register a citizen |
-| POST | `/api/auth/login` | Public | Log in and receive a JWT |
-| GET | `/api/auth/me` | Authenticated | Get current user info |
-| GET | `/api/notifications` | Authenticated | View notifications |
-| GET | `/api/notifications/unread-count` | Authenticated | Get unread count |
-| PATCH | `/api/notifications/:id/read` | Authenticated | Mark one notification as read |
+| POST | `/api/auth/login` | Public | Authenticate a user |
+| GET | `/api/auth/me` | Authenticated | Retrieve current user information |
+| GET | `/api/notifications` | Authenticated | Retrieve notifications |
+| GET | `/api/notifications/unread-count` | Authenticated | Retrieve unread notification count |
+| PATCH | `/api/notifications/:id/read` | Authenticated | Mark a notification as read |
 | PATCH | `/api/notifications/read-all` | Authenticated | Mark all notifications as read |
-| GET | `/api/citizen/dashboard` | Citizen | Dashboard summary |
-| GET | `/api/citizen/services` | Citizen | List active services |
-| POST | `/api/citizen/applications` | Citizen | Submit application |
-| GET | `/api/citizen/applications` | Citizen | List applications |
-| GET | `/api/citizen/applications/:id` | Citizen | View application details |
-| GET | `/api/citizen/applications/:id/certificate.pdf` | Citizen | Download application record PDF |
-| GET | `/api/citizen/certificates` | Citizen | List approved certificates |
-| GET | `/api/citizen/certificates/:id/pdf` | Citizen | Download issued certificate PDF |
-| GET | `/api/officer/applications` | Officer | View application queue |
-| GET | `/api/officer/applications/:id` | Officer | View one application |
-| PATCH | `/api/officer/applications/:id/status` | Officer | Submit recommendation or review status |
-| GET | `/api/admin/applications` | Admin | View all applications |
-| GET | `/api/admin/officers` | Admin | View active officers |
-| PATCH | `/api/admin/applications/:id/assign` | Admin | Assign officer |
-| PATCH | `/api/admin/applications/:id/status` | Admin | Final approve/reject |
-| GET | `/api/admin/certificates` | Admin | List certificates |
-| POST | `/api/admin/applications/:id/certificate` | Admin | Issue certificate |
-| GET | `/api/admin/certificates/:id` | Admin | Get certificate details |
-| GET | `/api/admin/certificates/:id/pdf` | Admin | Download certificate PDF |
+| GET | `/api/citizen/dashboard` | Citizen | Retrieve citizen dashboard information |
+| GET | `/api/citizen/services` | Citizen | Retrieve available services |
+| POST | `/api/citizen/applications` | Citizen | Submit an application |
+| GET | `/api/citizen/applications` | Citizen | Retrieve citizen applications |
+| GET | `/api/citizen/applications/:id` | Citizen | Retrieve application details |
+| GET | `/api/citizen/applications/:id/certificate.pdf` | Citizen | Download a supported application PDF |
+| GET | `/api/citizen/certificates` | Citizen | Retrieve issued certificates |
+| GET | `/api/citizen/certificates/:id/pdf` | Citizen | Download an issued certificate PDF |
+| GET | `/api/officer/applications` | Officer | Retrieve the officer application queue |
+| GET | `/api/officer/applications/:id` | Officer | Retrieve application details |
+| PATCH | `/api/officer/applications/:id/status` | Officer | Submit a review recommendation or status update |
+| GET | `/api/admin/applications` | Administrator | Retrieve applications |
+| GET | `/api/admin/officers` | Administrator | Retrieve active officers |
+| PATCH | `/api/admin/applications/:id/assign` | Administrator | Assign an application to an officer |
+| PATCH | `/api/admin/applications/:id/status` | Administrator | Process an application decision |
+| GET | `/api/admin/certificates` | Administrator | Retrieve certificate records |
+| POST | `/api/admin/applications/:id/certificate` | Administrator | Issue a certificate |
+| GET | `/api/admin/certificates/:id` | Administrator | Retrieve certificate details |
+| GET | `/api/admin/certificates/:id/pdf` | Administrator | Download a certificate PDF |
 | GET | `/api/certificates/verify/:certificateNumber` | Public | Verify a certificate record |
 
-## 14. Security and privacy considerations
+These paths describe the routes represented in the reviewed source. Some endpoints may require specific request payloads or additional permissions. Consult the backend implementation for exact behavior.
 
-The current implementation includes several notable security considerations:
+## 14. Security and Privacy
 
-- bcrypt password hashing
-- JWT-based authentication for protected routes
-- role-based authorization checks for citizen, officer, and admin access
-- transaction-based certificate issuance logic
-- restricted access to citizen data and downloadable PDFs
-- public verification page that exposes minimal certificate metadata only
+The codebase includes security-related mechanisms such as:
 
-Operational guidance:
-- never commit real database credentials or secrets
-- use environment variables and keep `.env` out of source control
-- validate access controls before deployment in a live environment
-- treat this as a prototype until further hardening is completed
+- Password hashing using bcrypt.
+- JWT-based authentication.
+- Authentication middleware for protected endpoints.
+- Role-based authorization checks.
+- Restricted access to application and certificate data.
+- Transaction handling in certificate issuance logic, where implemented.
 
-## 15. Future enhancements
+Additional precautions are required before any real-world deployment:
 
-Potential enhancements include:
-- document upload and validation for applications
-- more advanced reporting and analytics dashboards
-- configurable role permissions and policy management
-- rate limiting and API protection
-- email/SMS notifications through external providers
-- larger-scale filtering, sorting, and pagination for application data
-- additional features from a broader SRS not yet present in the codebase
+- Keep environment variables and credentials out of version control.
+- Validate and sanitize user input.
+- Review authentication, authorization, and ownership checks.
+- Use HTTPS in deployed environments.
+- Apply appropriate rate limiting and request-size limits.
+- Configure secure token handling and secret rotation.
+- Review file and PDF access permissions.
+- Add automated tests and security checks.
+- Review error handling and logging to avoid exposing sensitive information.
+- Back up the database and establish appropriate retention controls.
 
-## 16. Project limitations and disclaimer
+Do not use real citizen information or sensitive production data in this prototype.
 
-This project is a working prototype and should not be considered a production-grade public administration system without additional review, testing, and hardening.
+## 15. Current Limitations
 
-Current limitations visible in the repository include:
-- local MySQL configuration is required
-- the frontend targets `http://localhost:5000` for backend calls
-- only a subset of the database schema is present in the checked-in migration files
-- no formal automated test suite was identified in the reviewed files
-- no SRS v1.0 document was present in the working project folder
+The following limitations should be considered:
 
-This README documents only the functionality that is implemented and verifiable from the repository contents. Any broader business or legal requirements should be confirmed against the official SRS artifact if it exists outside this project workspace.
+- The project is a prototype and has not been established as production-ready.
+- A complete database schema for all runtime tables is not included in the checked-in migration files listed above.
+- Database configuration is required before the backend can operate correctly.
+- The frontend and backend API configuration must match the local environment.
+- The complete workflow should be tested with each user role.
+- No claim is made that a formal automated test suite exists unless one is added and verified.
+- External government database integration, official identity verification, payment processing, and electronic signatures are not represented as implemented features.
+- Deployment, monitoring, backup, and operational security require further work.
 
-## Summary
+## 16. Future Enhancements
 
-DSMS is a role-based digital system for citizen service applications, officer review, administrator decisions, and certificate issuance. The current implementation supports the main workflow from application submission to final decision and public verification, but it remains a prototype and requires additional validation before production use.
+Potential future improvements include:
+
+- Application document upload and validation.
+- More comprehensive reports and analytics.
+- Advanced search, filtering, sorting, and pagination.
+- Email or SMS notifications through external providers.
+- More detailed audit logging and reporting.
+- Improved automated testing and continuous integration.
+- Additional accessibility and responsive design improvements.
+- Stronger production security and deployment configuration.
+- Additional requirements identified in the formal Software Requirements Specification (SRS).
+
+These are potential enhancements and should not be considered implemented unless supported by the current codebase.
+
+## 17. Disclaimer
+
+DSMS is an educational and development prototype intended to demonstrate a digital workflow for citizen service applications, officer reviews, administrative decisions, and certificate management.
+
+It is not an official government website or service. It does not independently verify real-world identity, legal eligibility, or the authenticity of records held by government authorities.
+
+The system must undergo appropriate technical, security, privacy, and operational review before any use involving real citizens or official administrative processes.
+
+## 18. Author and Repository
+
+**Project:** Divisional Secretariat Management System (DSMS)
+
+**Repository:** [GayaniIresha/ds-management-system](https://github.com/GayaniIresha/ds-management-system)
+
+---
+
+*This documentation describes the project structure and functionality represented in the repository. Confirm implementation details against the current source code and local configuration before relying on them.*
