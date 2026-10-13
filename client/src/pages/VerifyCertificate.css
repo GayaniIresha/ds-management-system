@@ -1,0 +1,182 @@
+.verify-certificate-page {
+  min-height: 100vh;
+  background: #f4f7f8;
+  color: #172033;
+}
+
+.verify-certificate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding: 0 max(22px, calc((100% - 1100px) / 2));
+  border-bottom: 1px solid #dfe7e9;
+  background: #fff;
+}
+
+.verify-brand,
+.verify-certificate-header > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.verify-brand {
+  color: #173b70;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.verify-brand svg {
+  color: #27736c;
+}
+
+.verify-certificate-header > a {
+  color: #174ea6;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.verify-certificate-content {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  padding: 58px 24px;
+}
+
+.verify-eyebrow {
+  margin: 0 0 8px;
+  color: #27736c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.verify-certificate-content h1 {
+  margin: 0;
+  color: #172033;
+  font-size: 30px;
+}
+
+.verify-intro {
+  margin: 10px 0 24px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.verify-result {
+  padding: 23px;
+  border: 1px solid #dfe7e9;
+  border-top: 3px solid #64748b;
+  background: #fff;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.verify-result-valid {
+  border-top-color: #278078;
+}
+
+.verify-result-invalid {
+  border-top-color: #c2413b;
+}
+
+.verify-result-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #21724b;
+}
+
+.verify-result-invalid .verify-result-title {
+  color: #b91c1c;
+}
+
+.verify-result-title h2 {
+  margin: 0;
+  color: #172033;
+  font-size: 18px;
+}
+
+.verify-result dl {
+  margin: 19px 0 0;
+  border-top: 1px solid #edf1f6;
+}
+
+.verify-result dl > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) 1.3fr;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.verify-result dt {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.verify-result dd {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: #172033;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.verify-privacy-note {
+  margin: 15px 0 0;
+  color: #21724b;
+  font-size: 11px;
+}
+
+.verify-scope-note,
+.verify-footer {
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.verify-scope-note {
+  margin: 8px 0 0;
+}
+
+.verify-footer {
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  .verify-certificate-header {
+    padding: 0 15px;
+  }
+
+  .verify-brand {
+    font-size: 12px;
+  }
+
+  .verify-certificate-header > a {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .verify-certificate-content {
+    padding: 38px 16px;
+  }
+
+  .verify-certificate-content h1 {
+    font-size: 25px;
+  }
+
+  .verify-result {
+    padding: 17px;
+  }
+
+  .verify-result dl > div {
+    grid-template-columns: minmax(95px, 0.65fr) 1.35fr;
+  }
+}

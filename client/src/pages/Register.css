@@ -1,0 +1,15 @@
+.register-card {
+  max-width: 480px;
+}
+
+.register-card .login-subtitle {
+  margin-bottom: 24px;
+}
+
+.register-card .login-heading p {
+  margin-bottom: 18px;
+}
+
+.register-card form label {
+  margin-top: 13px;
+}
