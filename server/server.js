@@ -256,6 +256,229 @@ app.get("/api/auth/me", authMiddleware, async (req, res) => {
     }
 });
 
+
+ // =====================================================
+// CITIZEN PROFILE API
+// =====================================================
+
+// Get citizen profile
+app.get("/api/citizen/profile", authMiddleware, async (req, res) => {
+    try {
+        if (String(req.user.role).toLowerCase() !== "citizen") {
+            return res.status(403).json({
+                message: "Citizen access is required."
+            });
+        }
+
+        const [users] = await pool.execute(
+            `SELECT user_id, full_name, email, phone, address
+             FROM users
+             WHERE user_id = ?
+             LIMIT 1`,
+            [req.user.user_id]
+        );
+
+        if (!users.length) {
+            return res.status(404).json({
+                message: "Profile not found."
+            });
+        }
+
+        return res.json({ user: users[0] });
+    } catch (error) {
+        console.error("Get citizen profile error:", error.message);
+        return res.status(500).json({
+            message: "Unable to load profile."
+        });
+    }
+});
+
+// Update citizen profile
+app.put("/api/citizen/profile", authMiddleware, async (req, res) => {
+    try {
+        if (String(req.user.role).toLowerCase() !== "citizen") {
+            return res.status(403).json({
+                message: "Citizen access is required."
+            });
+        }
+
+        const userId = Number(req.user.user_id);
+
+        if (!Number.isSafeInteger(userId) || userId < 1) {
+            return res.status(401).json({
+                message: "Invalid authentication token."
+            });
+        }
+
+        const body = req.body;
+        if (!body || typeof body !== "object" || Array.isArray(body)) {
+            return res.status(400).json({
+                message: "A profile object is required."
+            });
+        }
+
+        const { full_name, email, phone, address } = body;
+        const normalizedName =
+            typeof full_name === "string" ? full_name.trim() : "";
+        const normalizedEmail =
+            typeof email === "string" ? email.trim().toLowerCase() : "";
+        const normalizedPhone =
+            typeof phone === "string" ? phone.trim() : phone;
+        const normalizedAddress =
+            typeof address === "string" ? address.trim() : address;
+
+        if (!normalizedName || !normalizedEmail) {
+            return res.status(400).json({
+                message: "Full name and email are required."
+            });
+        }
+
+        if (/[\u0000-\u001f\u007f]/.test(normalizedName)) {
+            return res.status(400).json({
+                message: "Full name contains invalid characters."
+            });
+        }
+
+        if ([...normalizedName].length > 100) {
+            return res.status(400).json({
+                message: "Full name must be 100 characters or fewer."
+            });
+        }
+
+        if (
+            [...normalizedEmail].length > 150 ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)
+        ) {
+            return res.status(400).json({
+                message: "Enter a valid email address."
+            });
+        }
+
+        if (
+            normalizedPhone !== undefined &&
+            normalizedPhone !== null &&
+            typeof normalizedPhone !== "string"
+        ) {
+            return res.status(400).json({
+                message: "Phone number must be text or empty."
+            });
+        }
+
+        const phoneValue = normalizedPhone || null;
+        if (
+            phoneValue &&
+            ([...phoneValue].length > 20 ||
+                !/^\+?[0-9().\-\s]+$/.test(phoneValue) ||
+                phoneValue.replace(/\D/g, "").length < 7 ||
+                phoneValue.replace(/\D/g, "").length > 15)
+        ) {
+            return res.status(400).json({
+                message: "Enter a valid phone number."
+            });
+        }
+
+        if (
+            normalizedAddress !== undefined &&
+            normalizedAddress !== null &&
+            typeof normalizedAddress !== "string"
+        ) {
+            return res.status(400).json({
+                message: "Address must be text or empty."
+            });
+        }
+
+        const addressValue = normalizedAddress || null;
+        if (addressValue && /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(addressValue)) {
+            return res.status(400).json({
+                message: "Address contains invalid characters."
+            });
+        }
+        if (addressValue && Buffer.byteLength(addressValue, "utf8") > 65535) {
+            return res.status(400).json({
+                message: "Address exceeds the database field limit."
+            });
+        }
+
+        const [currentUsers] = await pool.execute(
+            `SELECT user_id FROM users WHERE user_id = ? LIMIT 1`,
+            [userId]
+        );
+
+        if (!currentUsers.length) {
+            return res.status(404).json({
+                message: "Profile not found."
+            });
+        }
+
+        const [existing] = await pool.execute(
+            `SELECT user_id FROM users
+             WHERE email = ? AND user_id != ?
+             LIMIT 1`,
+            [normalizedEmail, userId]
+        );
+
+        if (existing.length) {
+            return res.status(409).json({
+                message: "This email is already registered."
+            });
+        }
+
+        await pool.execute(
+            `UPDATE users
+             SET full_name = ?, email = ?, phone = ?, address = ?
+             WHERE user_id = ?`,
+            [
+                normalizedName,
+                normalizedEmail,
+                phoneValue,
+                addressValue,
+                userId
+            ]
+        );
+
+        const [updatedUsers] = await pool.execute(
+            `SELECT user_id, full_name, email, phone, address
+             FROM users
+             WHERE user_id = ?
+             LIMIT 1`,
+            [userId]
+        );
+
+        if (!updatedUsers.length) {
+            return res.status(404).json({
+                message: "Profile not found."
+            });
+        }
+
+        return res.json({
+            message: "Profile updated successfully.",
+            user: updatedUsers[0]
+        });
+    } catch (error) {
+        console.error("Update citizen profile error:", {
+            userId: req.user?.user_id,
+            code: error.code,
+            message: error.message
+        });
+
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
+                message: "This email is already registered."
+            });
+        }
+
+        if (error.code === "ER_DATA_TOO_LONG" || error.sqlState === "22001") {
+            return res.status(400).json({
+                message: "One or more profile fields exceed the allowed length."
+            });
+        }
+
+        return res.status(500).json({
+            message: "Unable to update profile."
+        });
+    }
+});
+
 // =====================================================
 // CITIZEN DASHBOARD
 // =====================================================
